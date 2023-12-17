@@ -3,6 +3,7 @@ from board import Board
 
 white = (222, 195, 164)
 black = (31, 13, 3)
+start_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 pygame.init()
 
@@ -38,3 +39,21 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
+
+def decode_FEN(FEN: str):
+    # FEN is a string that represents the state of the board
+    info = FEN.split(" ")
+    
+    pieces = info[0].split("/")
+    for row in pieces:
+        pieces[pieces.index(row)] = list(row)
+
+    for row in pieces:
+        for i in range (len(row)):
+            if row[i].isdigit():
+                count = int(row[i])
+                pieces[pieces.index(row)][i:i+1] = ['' for _ in range(count)]
+
+    return (pieces)
+
+print(decode_FEN(start_FEN))
